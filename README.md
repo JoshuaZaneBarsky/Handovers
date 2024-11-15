@@ -10,4 +10,5 @@ To get started, run python3 Graphics.py
 - Graphics.py: The file that will create our visual representation
 
 Input: None.
+
 Output: tkinter window displaying our coded model.
