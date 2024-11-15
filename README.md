@@ -1,4 +1,4 @@
-# CS260
+# 5G Handovers
 
 ## This project serves as a visual representation to our reseach in 5G handovers.
 
