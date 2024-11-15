@@ -2,11 +2,12 @@ class Device():
     def __init__(self, name, location, radius, on):
         self.name = name
         self.location = location    # list [x,y] where x, y in [0,1]. Canvas is 10x10 miles. x,y are percentages of 10 miles.
-        self.radius = radius        # radius in miles (make max 10)
+        self.radius = radius        # radius in [0,1]. Percentage of 10 miles.
         self.on = on                # T/F
         print("--New device created--")
         print("Device name: " + self.name + ".")
         print("Device location: " + str(self.location) + ".")
+        print("Device radius: " + str(self.radius) + ".")
         print("Device power status: " + str(int(self.on)) + ".")
         
 

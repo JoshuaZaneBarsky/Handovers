@@ -2,11 +2,12 @@ class Tower():
     def __init__(self, name, location, radius, on):
         self.name = name
         self.location = location    # tuple (x,y) where x, y in [0,1]. Canvas is 10x10 miles. x,y are percentages of 10 miles.
-        self.radius = radius        # radius in miles (make max 10)
+        self.radius = radius        # radius in [0,1]. Percentage of 10 miles.
         self.on = on                # T/F
         print("--New tower created--")
         print("Tower name: " + self.name + ".")
         print("Tower location: " + str(self.location) + ".")
+        print("Tower radius: " + str(self.radius) + ".")
         print("Tower power status: " + str(int(self.on)) + ".")
         
 
