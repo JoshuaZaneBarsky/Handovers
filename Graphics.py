@@ -72,7 +72,7 @@ def get_display_text(option):
     }
     index = ["Use this option to save your data onto a PDF file.",
              "Use this option to save your data onto a TXT file.",
-             "Last chance to save your data before exiting.",
+             "Are you sure you would like to exit the program?\n\n\nYou will need to save your data manually.\n\nFile>Save raw data as .pdf\nFile>Save raw data as .txt",
              "Use this option to add a tower to your model.",
              "Use this option to add a device to your model.",
              "Use this option to display all model stats.",
@@ -82,12 +82,20 @@ def get_display_text(option):
 
     return index[dict[option]]
 
+def add_buttons_if_needed(popup_window, window_type):
+    if window_type == "exit":
+        b = Button(popup_window, text="exit", command=exit)
+        b.pack(side = 'bottom')
+        pass
+    
+
 def display_popup(title="", size="200x200", window_type=None):
     if title != "":
         popup_window = Tk()
         popup_window.title(title)
         popup_window.geometry(size)
         popup_label = Label(popup_window, text=get_display_text(window_type))
+        add_buttons_if_needed(popup_window, window_type)
         popup_label.pack()
         popup_window.mainloop
 
@@ -97,7 +105,7 @@ def createMenuBar(mainWindow):
     filemenu.add_command(label="Save raw data as .pdf", command=lambda: display_popup("Save as PDF", "300x300", "pdf")) # save data as pdf
     filemenu.add_command(label="Save raw data as .txt", command=lambda: display_popup("Save as TEXT", "300x300", "txt")) # save data as .txt
     filemenu.add_separator()
-    filemenu.add_command(label="Exit (does not save)", command=lambda: display_popup("Exit?", "300x300", "exit"))       # exit the program
+    filemenu.add_command(label="Exit (does not save)", command=lambda: display_popup("Exit?", "300x150", "exit"))       # exit the program
     menubar.add_cascade(label="File", menu=filemenu)
 
     addmenu = Menu(menubar, tearoff=0)
