@@ -84,8 +84,10 @@ def get_display_text(option):
 
 def add_buttons_if_needed(popup_window, window_type):
     if window_type == "exit":
-        b = Button(popup_window, text="exit", command=exit)
-        b.pack(side = 'bottom')
+        exit_button = Button(popup_window, text="exit", command=exit)
+        exit_button.pack(side = 'bottom')
+        cancel_button = Button(popup_window, text="cancel", command=popup_window.destroy)
+        cancel_button.pack(side = 'bottom')
         pass
     
 
@@ -105,7 +107,7 @@ def createMenuBar(mainWindow):
     filemenu.add_command(label="Save raw data as .pdf", command=lambda: display_popup("Save as PDF", "300x300", "pdf")) # save data as pdf
     filemenu.add_command(label="Save raw data as .txt", command=lambda: display_popup("Save as TEXT", "300x300", "txt")) # save data as .txt
     filemenu.add_separator()
-    filemenu.add_command(label="Exit (does not save)", command=lambda: display_popup("Exit?", "300x150", "exit"))       # exit the program
+    filemenu.add_command(label="Exit (does not save)", command=lambda: display_popup("Exit?", "300x200", "exit"))       # exit the program
     menubar.add_cascade(label="File", menu=filemenu)
 
     addmenu = Menu(menubar, tearoff=0)
