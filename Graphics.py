@@ -7,7 +7,6 @@ WINDOW_SIZE = [800,800]
 
 
 def initialize(params, canvas, model, mainWindow):
-    
     pass
 
 def mousePressed(params, event, canvas, model):
