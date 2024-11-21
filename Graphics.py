@@ -101,6 +101,12 @@ def display_popup(title="", size="200x200", window_type=None):
         popup_label.pack()
         popup_window.mainloop
 
+def read_file(): # (optional)
+    # a function if it's decided later on to read data from .txt files.
+    # once read, it will load settings to model.
+    pass
+
+
 def createMenuBar(mainWindow):
     menubar = Menu(mainWindow)
     filemenu = Menu(menubar, tearoff=0)
