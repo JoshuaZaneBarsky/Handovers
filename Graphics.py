@@ -82,12 +82,26 @@ def get_display_text(option):
 
     return index[dict[option]]
 
+def get_radius_value(radius_var, radius_label):
+    print(radius_var.get())
+    selection = "Radius = " + str(radius_var.get())
+    radius_label.config(text = selection)
+
 def add_buttons_if_needed(popup_window, window_type):
     if window_type == "exit":
         exit_button = Button(popup_window, text="exit", command=exit)
         exit_button.pack(side = 'bottom')
         cancel_button = Button(popup_window, text="cancel", command=popup_window.destroy)
         cancel_button.pack(side = 'bottom')
+    elif window_type == "tower":
+        radius_var = DoubleVar()
+        radius_scale = Scale(popup_window, variable = radius_var)
+        radius_scale.pack(anchor="w")
+        radius_label = Label(popup_window, anchor="w")
+        radius_button = Button(popup_window, text="Get radius value", command= lambda: get_radius_value(radius_var, radius_label))
+        radius_button.pack(anchor="w")
+        radius_label.pack()
+
         pass
     
 
