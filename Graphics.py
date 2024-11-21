@@ -121,6 +121,14 @@ def createMenuBar(mainWindow):
     addmenu.add_command(label="Add device", command=lambda: display_popup("Add a device", "300x300", "device")) # A window to pop up for user entry of device
     menubar.add_cascade(label="Add", menu=addmenu)
 
+    playmenu = Menu(menubar, tearoff=0)
+    playmenu.add_command(label="Play", command=lambda: donothing) # play the scene
+    playmenu.add_command(label="Pause", command=lambda: donothing) # pause the scene
+    playmenu.add_command(label="Restart", command=lambda: donothing) # restart the scene
+    playmenu.add_separator()
+    playmenu.add_command(label="Set play speed", command=lambda: donothing) # sets speed of scene
+    menubar.add_cascade(label="Play", menu=playmenu)
+
     statsmenu = Menu(menubar, tearoff=0)
     statsmenu.add_command(label="Show stats window", command=lambda: display_popup("Stats", "300x300", "stats")) # this will display a window with a drop down menu.
     statsmenu.add_command(label="Display/hide quick stats", command=lambda: donothing)
