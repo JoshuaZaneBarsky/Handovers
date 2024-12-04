@@ -2,11 +2,22 @@ from tkinter import *
 from PIL import Image, ImageTk # For displaying images
 from Parameters import Parameters
 from random import *
+from csv import *
+from Data import Data
 
 WINDOW_SIZE = [800,610]
 
+# bounds of map image
+HIGHEST_LATITUDE = 33.979672
+LOWEST_LATITUDE = 33.968959
+HIGHEST_LONGITUDE = -117.316927
+LOWEST_LONGITUDE = -117.333857
 
-def initialize(params, canvas, model, mainWindow):
+csv_file_to_open = "Data/parking_srv_to_botanic_grdn.csv" # test file
+
+
+def initialize(params, canvas, model, mainWindow, data, csv_file_to_open):
+    read_csv_file(csv_file_to_open,data)
     pass
 
 def mousePressed(params, event, canvas, model):
@@ -15,7 +26,7 @@ def mousePressed(params, event, canvas, model):
     # should there be images?
     pass
  
-def redraw(params, canvas, model):
+def redraw(params, canvas, model, data):
     try:
         image = Image.open("Images/ucr_map.png")
         original_width, original_height = image.size
@@ -31,7 +42,7 @@ def redraw(params, canvas, model):
     except Exception as e:
         error_label = Label(canvas, text=f"Error loading image: {e}", fg="red")
         error_label.pack()
-    
+    """
     # temporary --> Draw t1
     t1_x = params.t1.location[0] * WINDOW_SIZE[0]
     t1_y = params.t1.location[1] * WINDOW_SIZE[1]
@@ -60,7 +71,8 @@ def redraw(params, canvas, model):
     canvas.create_text(d2_x, d2_y-25, text=params.d2.name, font=("Arial", 12, "bold"), fill="blue")
     canvas.create_polygon(d2_x+15, d2_y+15, d2_x-15, d2_y+15, d2_x-15, d2_y-15, d2_x+15, d2_y-15, fill="black") # create_oval defines a bounding box
     # canvas.create_oval(d2_x-(WINDOW_SIZE[0]*params.d2.radius), d2_y-(WINDOW_SIZE[1]*params.d2.radius), d2_x+(WINDOW_SIZE[0]*params.d2.radius), d2_y+(WINDOW_SIZE[1]*params.d2.radius), dash=(4,2)) # create_oval defines a bounding box
-    
+    """
+    plot_positions(canvas, data)
     canvas.update()
     
     pass
@@ -132,10 +144,63 @@ def display_popup(title="", size="200x200", window_type=None):
         popup_label.pack()
         popup_window.mainloop
 
-def read_file(): # (optional)
+def read_txt_file(): # (optional)
     # a function if it's decided later on to read data from .txt files.
     # once read, it will load settings to model.
     pass
+
+def read_csv_file(csv_file_to_open, data):
+    with open(csv_file_to_open,'r') as csvfile: 
+        lines = reader(csvfile, delimiter=',')
+        count = 0
+        for row in lines:
+            if count: 
+                data.sim.append(row[0]) 
+                data.radiotype.append(row[1]) 
+                data.radio.append(row[2]) 
+                data.mcc.append(row[3]) 
+                data.mnc.append(row[4]) 
+                data.area.append(row[5]) 
+                data.cellid.append(row[6]) 
+                data.unit.append(row[7]) 
+                data.lat.append(row[8]) 
+                data.lon.append(row[9]) 
+                data.signal.append(row[10]) 
+                data.extra.append(row[11]) 
+                data.acc.append(row[12]) 
+                data.time.append(row[13]) 
+                data.speed.append(row[14]) 
+                data.bearing.append(row[15]) 
+                data.alt.append(row[16]) 
+                data.api.append(row[17]) 
+                data.device.append(row[18]) 
+            count = 1
+
+def plot_positions(canvas, data): # plots the xy positions
+
+    # starting position
+    pos_A = [float(data.lat[0]), float(data.lon[0])]
+    y_raw = HIGHEST_LATITUDE - pos_A[0]
+    x_raw = HIGHEST_LONGITUDE - pos_A[1]    
+    y_percent = ((y_raw*100)/(HIGHEST_LATITUDE-LOWEST_LATITUDE))/100
+    x_percent = ((x_raw*100)/(HIGHEST_LONGITUDE-LOWEST_LONGITUDE))/100
+    x = WINDOW_SIZE[0] - x_percent*WINDOW_SIZE[0]
+    y = y_percent*WINDOW_SIZE[1]
+    canvas.create_text(x, y+25, text="START", font=("Arial", 12, "bold"), fill="black")
+    canvas.create_polygon(x+15, y+15, x-15, y+15, x-15, y-15, x+15, y-15, fill="green")
+
+    # ending position
+    pos_B = [float(data.lat[len(data.lat)-1]), float(data.lon[len(data.lon)-1])]
+    y_raw = HIGHEST_LATITUDE - pos_B[0]
+    x_raw = HIGHEST_LONGITUDE - pos_B[1]    
+    y_percent = ((y_raw*100)/(HIGHEST_LATITUDE-LOWEST_LATITUDE))/100
+    x_percent = ((x_raw*100)/(HIGHEST_LONGITUDE-LOWEST_LONGITUDE))/100
+    x = WINDOW_SIZE[0] - x_percent*WINDOW_SIZE[0]
+    y = y_percent*WINDOW_SIZE[1]
+    canvas.create_text(x, y-25, text="END", font=("Arial", 12, "bold"), fill="black")
+    canvas.create_polygon(x+15, y+15, x-15, y+15, x-15, y-15, x+15, y-15, fill="red")
+
+    canvas.update()
 
 
 def createMenuBar(mainWindow):
@@ -193,21 +258,22 @@ def run(width = WINDOW_SIZE[0], height = WINDOW_SIZE[1]):
 
     createMenuBar(mainWindow)
 
-    initialize(params, canvas, model, mainWindow)
+    data = Data()
+    initialize(params, canvas, model, mainWindow, data, csv_file_to_open)
 
 
-    def redrawWrapper(params, canvas, model):
+    def redrawWrapper(params, canvas, model, data):
         canvas.delete(ALL)
-        redraw(params, canvas, model)
+        redraw(params, canvas, model, data)
         canvas.update()
 
     def mousePressWrapper(params, event, canvas, model):
         mousePressed(params, event, canvas, model)
-        redrawWrapper(params, canvas, model)
+        redrawWrapper(params, canvas, model, data)
 
     mainWindow.bind("<Button-1>", lambda event: mousePressWrapper(params, event, canvas, model))
 
-    redrawWrapper(params, canvas, model)
+    redrawWrapper(params, canvas, model, data)
 
     mainWindow.mainloop()
 
