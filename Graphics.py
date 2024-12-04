@@ -14,7 +14,7 @@ LOWEST_LATITUDE = 33.968959
 HIGHEST_LONGITUDE = -117.316927
 LOWEST_LONGITUDE = -117.333857
 
-csv_files_to_open = ["Data/parking_srv_to_botanic_grdn.csv"] # list of files
+csv_files_to_open = ["Data/first_test.csv", "Data/parking_srv_to_botanic_grdn.csv"] # list of files
 data = []
 
 
@@ -76,7 +76,7 @@ def redraw(params, canvas, model, data):
     # canvas.create_oval(d2_x-(WINDOW_SIZE[0]*params.d2.radius), d2_y-(WINDOW_SIZE[1]*params.d2.radius), d2_x+(WINDOW_SIZE[0]*params.d2.radius), d2_y+(WINDOW_SIZE[1]*params.d2.radius), dash=(4,2)) # create_oval defines a bounding box
     """
     for i in range(len(data)):
-        plot_positions(canvas, data[i])
+        animate_path(canvas, data[i])
     canvas.update()
     
     pass
@@ -180,7 +180,7 @@ def read_csv_file(csv_file_to_open, data):
                 data.device.append(row[18]) 
             count = 1
 
-def plot_positions(canvas, data): # plots the xy positions
+def animate_path(canvas, data): # plots the xy positions
 
     # starting position
     pos_A = [float(data.lat[0]), float(data.lon[0])]
@@ -190,8 +190,8 @@ def plot_positions(canvas, data): # plots the xy positions
     x_percent = ((x_raw*100)/(HIGHEST_LONGITUDE-LOWEST_LONGITUDE))/100
     x = WINDOW_SIZE[0] - x_percent*WINDOW_SIZE[0]
     y = y_percent*WINDOW_SIZE[1]
-    canvas.create_text(x, y+25, text="START", font=("Arial", 12, "bold"), fill="black")
     canvas.create_polygon(x+15, y+15, x-15, y+15, x-15, y-15, x+15, y-15, fill="green")
+    canvas.create_text(x, y, text="START", font=("Arial", 7, "bold"), fill="black")
 
 
     cell_id = 0
@@ -199,7 +199,7 @@ def plot_positions(canvas, data): # plots the xy positions
         if cell_id != data.cellid[i]:
             # add handovers to map
             cell_id = data.cellid[i]
-            if i+1 != len(data.cellid) and "5G" in data.radiotype[i] and "5G" in data.radiotype[i+1]:
+            if (i != 0) and ("5G" in data.radiotype[i]) and ("5G" in data.radiotype[i-1]):
                 pos_HO = [float(data.lat[i]), float(data.lon[i])]
                 y_raw = HIGHEST_LATITUDE - pos_HO[0]
                 x_raw = HIGHEST_LONGITUDE - pos_HO[1]    
@@ -221,7 +221,7 @@ def plot_positions(canvas, data): # plots the xy positions
                 canvas.create_text(x, y+25, text="", font=("Arial", 12, "bold"), fill="black")
                 canvas.create_polygon(x+2, y+2, x-2, y+2, x-2, y-2, x+2, y-2, fill="blue")
         else:
-            # add all other positions to map
+            # add all other radio connection positions to map
                 pos_ANY = [float(data.lat[i]), float(data.lon[i])]
                 y_raw = HIGHEST_LATITUDE - pos_ANY[0]
                 x_raw = HIGHEST_LONGITUDE - pos_ANY[1]    
@@ -242,8 +242,8 @@ def plot_positions(canvas, data): # plots the xy positions
     x_percent = ((x_raw*100)/(HIGHEST_LONGITUDE-LOWEST_LONGITUDE))/100
     x = WINDOW_SIZE[0] - x_percent*WINDOW_SIZE[0]
     y = y_percent*WINDOW_SIZE[1]
-    canvas.create_text(x, y-25, text="END", font=("Arial", 12, "bold"), fill="black")
     canvas.create_polygon(x+15, y+15, x-15, y+15, x-15, y-15, x+15, y-15, fill="red")
+    canvas.create_text(x, y, text="END", font=("Arial", 8, "bold"), fill="black")
 
     canvas.update()
 
