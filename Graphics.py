@@ -13,11 +13,13 @@ LOWEST_LATITUDE = 33.968959
 HIGHEST_LONGITUDE = -117.316927
 LOWEST_LONGITUDE = -117.333857
 
-csv_file_to_open = "Data/parking_srv_to_botanic_grdn.csv" # test file
+csv_files_to_open = ["Data/parking_srv_to_botanic_grdn.csv"] # list of files
+data = []
 
 
-def initialize(params, canvas, model, mainWindow, data, csv_file_to_open):
-    read_csv_file(csv_file_to_open,data)
+def initialize(params, canvas, model, mainWindow, data, csv_files_to_open):
+    for i in range(len(csv_files_to_open)):
+        read_csv_file(csv_files_to_open[i],data[i])
     pass
 
 def mousePressed(params, event, canvas, model):
@@ -72,7 +74,8 @@ def redraw(params, canvas, model, data):
     canvas.create_polygon(d2_x+15, d2_y+15, d2_x-15, d2_y+15, d2_x-15, d2_y-15, d2_x+15, d2_y-15, fill="black") # create_oval defines a bounding box
     # canvas.create_oval(d2_x-(WINDOW_SIZE[0]*params.d2.radius), d2_y-(WINDOW_SIZE[1]*params.d2.radius), d2_x+(WINDOW_SIZE[0]*params.d2.radius), d2_y+(WINDOW_SIZE[1]*params.d2.radius), dash=(4,2)) # create_oval defines a bounding box
     """
-    plot_positions(canvas, data)
+    for i in range(len(data)):
+        plot_positions(canvas, data[i])
     canvas.update()
     
     pass
@@ -189,6 +192,33 @@ def plot_positions(canvas, data): # plots the xy positions
     canvas.create_text(x, y+25, text="START", font=("Arial", 12, "bold"), fill="black")
     canvas.create_polygon(x+15, y+15, x-15, y+15, x-15, y-15, x+15, y-15, fill="green")
 
+    cell_id = 0
+    for i in range(len(data.cellid)):
+        if cell_id != data.cellid[i]:
+            # add handovers to map
+            cell_id = data.cellid[i]
+            if i+1 != len(data.cellid) and "5G" in data.radiotype[i] and "5G" in data.radiotype[i+1]:
+                pos_HO = [float(data.lat[i]), float(data.lon[i])]
+                y_raw = HIGHEST_LATITUDE - pos_HO[0]
+                x_raw = HIGHEST_LONGITUDE - pos_HO[1]    
+                y_percent = ((y_raw*100)/(HIGHEST_LATITUDE-LOWEST_LATITUDE))/100
+                x_percent = ((x_raw*100)/(HIGHEST_LONGITUDE-LOWEST_LONGITUDE))/100
+                x = WINDOW_SIZE[0] - x_percent*WINDOW_SIZE[0]
+                y = y_percent*WINDOW_SIZE[1]
+                canvas.create_text(x+55, y, text="5G->5G HO", font=("Arial", 12, "bold"), fill="black")
+                canvas.create_polygon(x+5, y+5, x-5, y+5, x-5, y-5, x+5, y-5, fill="purple")
+        else:   
+                # add all other positions to map
+                pos_ANY = [float(data.lat[i]), float(data.lon[i])]
+                y_raw = HIGHEST_LATITUDE - pos_ANY[0]
+                x_raw = HIGHEST_LONGITUDE - pos_ANY[1]    
+                y_percent = ((y_raw*100)/(HIGHEST_LATITUDE-LOWEST_LATITUDE))/100
+                x_percent = ((x_raw*100)/(HIGHEST_LONGITUDE-LOWEST_LONGITUDE))/100
+                x = WINDOW_SIZE[0] - x_percent*WINDOW_SIZE[0]
+                y = y_percent*WINDOW_SIZE[1]
+                canvas.create_text(x, y+25, text="", font=("Arial", 12, "bold"), fill="black")
+                canvas.create_polygon(x+2, y+2, x-2, y+2, x-2, y-2, x+2, y-2, fill="blue")
+
     # ending position
     pos_B = [float(data.lat[len(data.lat)-1]), float(data.lon[len(data.lon)-1])]
     y_raw = HIGHEST_LATITUDE - pos_B[0]
@@ -258,8 +288,9 @@ def run(width = WINDOW_SIZE[0], height = WINDOW_SIZE[1]):
 
     createMenuBar(mainWindow)
 
-    data = Data()
-    initialize(params, canvas, model, mainWindow, data, csv_file_to_open)
+    for i in range(len(csv_files_to_open)):
+        data.append(Data())
+    initialize(params, canvas, model, mainWindow, data, csv_files_to_open)
 
 
     def redrawWrapper(params, canvas, model, data):
