@@ -14,7 +14,7 @@ LOWEST_LATITUDE = 33.968959
 HIGHEST_LONGITUDE = -117.316927
 LOWEST_LONGITUDE = -117.333857
 
-csv_files_to_open = ["Data/first_test.csv", "Data/parking_srv_to_botanic_grdn.csv"] # list of files
+csv_files_to_open = ["Data/first_test.csv", "Data/parking_srv_to_botanic_grdn.csv", "Data/around_campus.csv"] # list of files
 data = []
 
 
@@ -246,6 +246,7 @@ def animate_path(canvas, data): # plots the xy positions
     canvas.create_text(x, y, text="FINISH", font=("Arial", 6, "bold"), fill="black")
 
     canvas.update()
+    time.sleep(.5)
 
 
 def createMenuBar(mainWindow):
