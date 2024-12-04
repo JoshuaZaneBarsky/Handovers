@@ -243,7 +243,7 @@ def animate_path(canvas, data): # plots the xy positions
     x = WINDOW_SIZE[0] - x_percent*WINDOW_SIZE[0]
     y = y_percent*WINDOW_SIZE[1]
     canvas.create_polygon(x+15, y+15, x-15, y+15, x-15, y-15, x+15, y-15, fill="red")
-    canvas.create_text(x, y, text="END", font=("Arial", 8, "bold"), fill="black")
+    canvas.create_text(x, y, text="FINISH", font=("Arial", 6, "bold"), fill="black")
 
     canvas.update()
 
