@@ -3,7 +3,7 @@ from PIL import Image, ImageTk # For displaying images
 from Parameters import Parameters
 from random import *
 
-WINDOW_SIZE = [800,800]
+WINDOW_SIZE = [800,610]
 
 
 def initialize(params, canvas, model, mainWindow):
@@ -16,6 +16,22 @@ def mousePressed(params, event, canvas, model):
     pass
  
 def redraw(params, canvas, model):
+    try:
+        image = Image.open("Images/ucr_map.png")
+        original_width, original_height = image.size
+        image = image.resize((int(original_width*.5), int(original_height*.5)))
+        photo = ImageTk.PhotoImage(image)
+
+        # Display the image on the canvas
+        canvas.create_image(0, 0, image=photo, anchor=NW)
+
+        # Keep a reference to the image object to prevent garbage collection
+        canvas.image = photo
+
+    except Exception as e:
+        error_label = Label(canvas, text=f"Error loading image: {e}", fg="red")
+        error_label.pack()
+    
     # temporary --> Draw t1
     t1_x = params.t1.location[0] * WINDOW_SIZE[0]
     t1_y = params.t1.location[1] * WINDOW_SIZE[1]
@@ -46,6 +62,7 @@ def redraw(params, canvas, model):
     # canvas.create_oval(d2_x-(WINDOW_SIZE[0]*params.d2.radius), d2_y-(WINDOW_SIZE[1]*params.d2.radius), d2_x+(WINDOW_SIZE[0]*params.d2.radius), d2_y+(WINDOW_SIZE[1]*params.d2.radius), dash=(4,2)) # create_oval defines a bounding box
     
     canvas.update()
+    
     pass
 
 def quick_stats():
@@ -161,7 +178,7 @@ def createMenuBar(mainWindow):
 
 
 
-def run(width = 800, height = 800):
+def run(width = WINDOW_SIZE[0], height = WINDOW_SIZE[1]):
     class Struct(): pass
     model = Struct()
     model.width = width
