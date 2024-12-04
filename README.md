@@ -4,12 +4,12 @@
 
 To get started, run python3 Graphics.py
 
-- Device.py: Contains the Device class for a device object
-- Tower.py: Contains the Tower class for a tower object.
-- Parameters.py: The file that gets and sets the parameters of device, tower, and tkinter tools.
 - Graphics.py: The file that will create our visual representation
-- Images: Foler that contains images that can be displayed as symbols on the canvas.
+- Device.py: Optionally for creating device objects.
+- Tower.py: Optionally for creating tower objects.
+- presetDevices.py: Optionally for setting tower and device objects
+- Images: Folder that contains images that can be displayed as symbols on the canvas.
 
-Input: None.
+Input: CSV files to read from.
 
-Output: tkinter window displaying our coded model.
+Output: Animation of handovers occuring on the UCR campus.

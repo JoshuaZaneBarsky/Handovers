@@ -1,3 +1,4 @@
+# This class stores the column data for each given csv into variables
 class Data():
     def __init__(self):
         self.sim = []
