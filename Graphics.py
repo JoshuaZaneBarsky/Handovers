@@ -14,7 +14,7 @@ LOWEST_LATITUDE = 33.968959
 HIGHEST_LONGITUDE = -117.316927
 LOWEST_LONGITUDE = -117.333857
 
-csv_files_to_open = ["Data/first_test.csv", "Data/parking_srv_to_botanic_grdn.csv", "Data/around_campus.csv"] # list of files
+csv_files_to_open = ["Data/parking_srv_to_botanic_grdn.csv", "Data/around_campus.csv"] # list of files
 data = []
 
 
