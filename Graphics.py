@@ -4,6 +4,7 @@ from Parameters import Parameters
 from random import *
 from csv import *
 from Data import Data
+import time
 
 WINDOW_SIZE = [800,610]
 
@@ -192,6 +193,7 @@ def plot_positions(canvas, data): # plots the xy positions
     canvas.create_text(x, y+25, text="START", font=("Arial", 12, "bold"), fill="black")
     canvas.create_polygon(x+15, y+15, x-15, y+15, x-15, y-15, x+15, y-15, fill="green")
 
+
     cell_id = 0
     for i in range(len(data.cellid)):
         if cell_id != data.cellid[i]:
@@ -207,8 +209,8 @@ def plot_positions(canvas, data): # plots the xy positions
                 y = y_percent*WINDOW_SIZE[1]
                 canvas.create_text(x+55, y, text="5G->5G HO", font=("Arial", 12, "bold"), fill="black")
                 canvas.create_polygon(x+5, y+5, x-5, y+5, x-5, y-5, x+5, y-5, fill="purple")
-        else:   
-                # add all other positions to map
+        elif "5G" in data.radiotype[i]:   
+                # add 5G connection positions on map
                 pos_ANY = [float(data.lat[i]), float(data.lon[i])]
                 y_raw = HIGHEST_LATITUDE - pos_ANY[0]
                 x_raw = HIGHEST_LONGITUDE - pos_ANY[1]    
@@ -218,6 +220,19 @@ def plot_positions(canvas, data): # plots the xy positions
                 y = y_percent*WINDOW_SIZE[1]
                 canvas.create_text(x, y+25, text="", font=("Arial", 12, "bold"), fill="black")
                 canvas.create_polygon(x+2, y+2, x-2, y+2, x-2, y-2, x+2, y-2, fill="blue")
+        else:
+            # add all other positions to map
+                pos_ANY = [float(data.lat[i]), float(data.lon[i])]
+                y_raw = HIGHEST_LATITUDE - pos_ANY[0]
+                x_raw = HIGHEST_LONGITUDE - pos_ANY[1]    
+                y_percent = ((y_raw*100)/(HIGHEST_LATITUDE-LOWEST_LATITUDE))/100
+                x_percent = ((x_raw*100)/(HIGHEST_LONGITUDE-LOWEST_LONGITUDE))/100
+                x = WINDOW_SIZE[0] - x_percent*WINDOW_SIZE[0]
+                y = y_percent*WINDOW_SIZE[1]
+                canvas.create_text(x, y+25, text="", font=("Arial", 12, "bold"), fill="black")
+                canvas.create_polygon(x+2, y+2, x-2, y+2, x-2, y-2, x+2, y-2, fill="orange")
+        canvas.update()
+        time.sleep(.1)
 
     # ending position
     pos_B = [float(data.lat[len(data.lat)-1]), float(data.lon[len(data.lon)-1])]
