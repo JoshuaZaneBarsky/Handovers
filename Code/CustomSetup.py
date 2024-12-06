@@ -3,9 +3,20 @@
 from Tower import Tower
 from Device import Device
 
-class presetDevices():
+class CustomSetup():
     # Initial set up for modeling scenario
     def __init__(self):
+        # tower names
+        # device names
+        # device-tower connections
+        # device-tower ranges
+
+
+        # analytics? RSPQ? ...
+
+        # Past inactive connections
+
+        """
         print("Instantiating Optional Tower and Device Objects..")
         t1 = Tower("West Tower", (.25,.50), .3, True)
         t2 = Tower("East Tower", (.75, .50), .3, True)
@@ -18,3 +29,4 @@ class presetDevices():
         self.d2 = d2
         self.t1 = t1
         self.t2 = t2
+        """

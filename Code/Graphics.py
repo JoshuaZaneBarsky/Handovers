@@ -1,6 +1,6 @@
 from tkinter import *
 from PIL import Image, ImageTk
-from presetDevices import presetDevices
+from CustomSetup import CustomSetup
 from random import *
 from csv import *
 from Data import Data
@@ -22,20 +22,20 @@ data = []
 pause = False # (optional)
 
 # initializes the file data needed for the program
-def initialize(preset_devices, canvas,  mainWindow, data, csv_files_to_open):
+def initialize(custom_setup, canvas,  mainWindow, data, csv_files_to_open):
     for i in range(len(csv_files_to_open)):
         read_csv_file(csv_files_to_open[i],data[i])
     pass
 
 # triggers when the mouse press event occurs
-def mousePressed(preset_devices, event, canvas):
+def mousePressed(custom_setup, event, canvas):
     # what can we do on mouse pressed?
     # should there be buttons?
     # should there be images?
     pass
 
 # draws all items to the canvas
-def redraw(preset_devices, canvas,  data):
+def redraw(custom_setup, canvas,  data):
     try: # Draws the map background
         image = Image.open("Images/ucr_map.png")
         original_width, original_height = image.size
@@ -48,33 +48,33 @@ def redraw(preset_devices, canvas,  data):
         error_label.pack()
     """
     # temporary --> Draw t1
-    t1_x = preset_devices.t1.location[0] * WINDOW_SIZE[0]
-    t1_y = preset_devices.t1.location[1] * WINDOW_SIZE[1]
-    canvas.create_text(t1_x, t1_y-25, text=preset_devices.t1.name, font=("Arial", 12, "bold"), fill="blue")
+    t1_x = custom_setup.t1.location[0] * WINDOW_SIZE[0]
+    t1_y = custom_setup.t1.location[1] * WINDOW_SIZE[1]
+    canvas.create_text(t1_x, t1_y-25, text=custom_setup.t1.name, font=("Arial", 12, "bold"), fill="blue")
     canvas.create_polygon(t1_x+15, t1_y+15, t1_x-15, t1_y+15, t1_x+0, t1_y-15, fill="black") # create_oval defines a bounding box
-    canvas.create_oval(t1_x-(WINDOW_SIZE[0]*preset_devices.t1.radius), t1_y-(WINDOW_SIZE[1]*preset_devices.t1.radius), t1_x+(WINDOW_SIZE[0]*preset_devices.t1.radius), t1_y+(WINDOW_SIZE[1]*preset_devices.t1.radius), dash=(4,2)) # create_oval defines a bounding box
+    canvas.create_oval(t1_x-(WINDOW_SIZE[0]*custom_setup.t1.radius), t1_y-(WINDOW_SIZE[1]*custom_setup.t1.radius), t1_x+(WINDOW_SIZE[0]*custom_setup.t1.radius), t1_y+(WINDOW_SIZE[1]*custom_setup.t1.radius), dash=(4,2)) # create_oval defines a bounding box
 
     # temporary --> Draw t2
-    t2_x = preset_devices.t2.location[0] * WINDOW_SIZE[0]
-    t2_y = preset_devices.t2.location[1] * WINDOW_SIZE[1]
-    canvas.create_text(t2_x, t2_y-25, text=preset_devices.t2.name, font=("Arial", 12, "bold"), fill="blue")
+    t2_x = custom_setup.t2.location[0] * WINDOW_SIZE[0]
+    t2_y = custom_setup.t2.location[1] * WINDOW_SIZE[1]
+    canvas.create_text(t2_x, t2_y-25, text=custom_setup.t2.name, font=("Arial", 12, "bold"), fill="blue")
     canvas.create_polygon(t2_x+15, t2_y+15, t2_x-15, t2_y+15, t2_x+0, t2_y-15, fill="black") # create_oval defines a bounding box
-    canvas.create_oval(t2_x-(WINDOW_SIZE[0]*preset_devices.t2.radius), t2_y-(WINDOW_SIZE[1]*preset_devices.t2.radius), t2_x+(WINDOW_SIZE[0]*preset_devices.t2.radius), t2_y+(WINDOW_SIZE[1]*preset_devices.t2.radius), dash=(4,2)) # create_oval defines a bounding box
+    canvas.create_oval(t2_x-(WINDOW_SIZE[0]*custom_setup.t2.radius), t2_y-(WINDOW_SIZE[1]*custom_setup.t2.radius), t2_x+(WINDOW_SIZE[0]*custom_setup.t2.radius), t2_y+(WINDOW_SIZE[1]*custom_setup.t2.radius), dash=(4,2)) # create_oval defines a bounding box
     canvas.update()
 
     # temporary --> Draw d1
-    d1_x = preset_devices.d1.location[0] * WINDOW_SIZE[0]
-    d1_y = preset_devices.d1.location[1] * WINDOW_SIZE[1]
-    canvas.create_text(d1_x, d1_y-25, text=preset_devices.d1.name, font=("Arial", 12, "bold"), fill="blue")
+    d1_x = custom_setup.d1.location[0] * WINDOW_SIZE[0]
+    d1_y = custom_setup.d1.location[1] * WINDOW_SIZE[1]
+    canvas.create_text(d1_x, d1_y-25, text=custom_setup.d1.name, font=("Arial", 12, "bold"), fill="blue")
     canvas.create_polygon(d1_x+15, d1_y+15, d1_x-15, d1_y+15, d1_x-15, d1_y-15, d1_x+15, d1_y-15, fill="black") # create_oval defines a bounding box
-    # canvas.create_oval(d1_x-(WINDOW_SIZE[0]*preset_devices.d1.radius), d1_y-(WINDOW_SIZE[1]*preset_devices.d1.radius), d1_x+(WINDOW_SIZE[0]*preset_devices.d1.radius), d1_y+(WINDOW_SIZE[1]*preset_devices.d1.radius), dash=(4,2)) # create_oval defines a bounding box
+    # canvas.create_oval(d1_x-(WINDOW_SIZE[0]*custom_setup.d1.radius), d1_y-(WINDOW_SIZE[1]*custom_setup.d1.radius), d1_x+(WINDOW_SIZE[0]*custom_setup.d1.radius), d1_y+(WINDOW_SIZE[1]*custom_setup.d1.radius), dash=(4,2)) # create_oval defines a bounding box
 
     # temporary --> Draw d2
-    d2_x = preset_devices.d2.location[0] * WINDOW_SIZE[0]
-    d2_y = preset_devices.d2.location[1] * WINDOW_SIZE[1]
-    canvas.create_text(d2_x, d2_y-25, text=preset_devices.d2.name, font=("Arial", 12, "bold"), fill="blue")
+    d2_x = custom_setup.d2.location[0] * WINDOW_SIZE[0]
+    d2_y = custom_setup.d2.location[1] * WINDOW_SIZE[1]
+    canvas.create_text(d2_x, d2_y-25, text=custom_setup.d2.name, font=("Arial", 12, "bold"), fill="blue")
     canvas.create_polygon(d2_x+15, d2_y+15, d2_x-15, d2_y+15, d2_x-15, d2_y-15, d2_x+15, d2_y-15, fill="black") # create_oval defines a bounding box
-    # canvas.create_oval(d2_x-(WINDOW_SIZE[0]*preset_devices.d2.radius), d2_y-(WINDOW_SIZE[1]*preset_devices.d2.radius), d2_x+(WINDOW_SIZE[0]*preset_devices.d2.radius), d2_y+(WINDOW_SIZE[1]*preset_devices.d2.radius), dash=(4,2)) # create_oval defines a bounding box
+    # canvas.create_oval(d2_x-(WINDOW_SIZE[0]*custom_setup.d2.radius), d2_y-(WINDOW_SIZE[1]*custom_setup.d2.radius), d2_x+(WINDOW_SIZE[0]*custom_setup.d2.radius), d2_y+(WINDOW_SIZE[1]*custom_setup.d2.radius), dash=(4,2)) # create_oval defines a bounding box
     """
     for i in range(len(data)):
         animate_path(canvas, data[i])
@@ -304,7 +304,7 @@ def play_animation(): # (optional)
 # runs the program
 def run(w = WINDOW_SIZE[0], h = WINDOW_SIZE[1]):
 
-    preset_devices = presetDevices() # (optional)
+    custom_setup = CustomSetup() # (optional)
     
     # creates the window
     mainWindow = Tk()
@@ -314,23 +314,23 @@ def run(w = WINDOW_SIZE[0], h = WINDOW_SIZE[1]):
     createMenuBar(mainWindow)
     for i in range(len(csv_files_to_open)):
         data.append(Data())
-    initialize(preset_devices, canvas, mainWindow, data, csv_files_to_open)
+    initialize(custom_setup, canvas, mainWindow, data, csv_files_to_open)
 
     # wrapper for redraw
-    def redrawWrapper(preset_devices, canvas, data):
+    def redrawWrapper(custom_setup, canvas, data):
         canvas.delete(ALL)
-        redraw(preset_devices, canvas, data)
+        redraw(custom_setup, canvas, data)
         canvas.update()
 
     # wrapper for moused pressed
-    def mousePressWrapper(preset_devices, event, canvas):
-        mousePressed(preset_devices, event, canvas)
-        redrawWrapper(preset_devices, canvas,  data)
+    def mousePressWrapper(custom_setup, event, canvas):
+        mousePressed(custom_setup, event, canvas)
+        redrawWrapper(custom_setup, canvas,  data)
 
     # binds the mouse pressed event to the mouse
-    mainWindow.bind("<Button-1>", lambda event: mousePressWrapper(preset_devices, event, canvas))
+    mainWindow.bind("<Button-1>", lambda event: mousePressWrapper(custom_setup, event, canvas))
 
-    redrawWrapper(preset_devices, canvas,  data)
+    redrawWrapper(custom_setup, canvas,  data)
 
     mainWindow.mainloop()
 

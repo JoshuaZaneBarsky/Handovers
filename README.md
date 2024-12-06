@@ -5,10 +5,14 @@
 To get started, run python3 Graphics.py
 
 - Graphics.py: The file that will create our visual representation
-- Device.py: Optionally for creating device objects.
-- Tower.py: Optionally for creating tower objects.
-- presetDevices.py: Optionally for setting tower and device objects
+- Data.py: This file stores the data read from csv files onto variables.
 - Images: Folder that contains images that can be displayed as symbols on the canvas.
+
+## Optional section
+- Device.py: Device class for optionally for creating device objects.
+- Tower.py: Tower class for optionally for creating tower objects.
+- CustomSetup.py: Platform where devices and towers can be created and stored.
+
 
 Input: CSV files to read from.
 
