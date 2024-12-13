@@ -1,6 +1,6 @@
 # 5G Handovers
 
-## This project serves as a visual representation to our reseach in 5G handovers.
+## This project serves as a visual representation to our study into 5G handovers.
 
 To get started, run python3 Graphics.py
 
